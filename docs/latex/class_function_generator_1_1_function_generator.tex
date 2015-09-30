@@ -1,0 +1,180 @@
+\hypertarget{class_function_generator_1_1_function_generator}{}\section{Function\+Generator.\+Function\+Generator Class Reference}
+\label{class_function_generator_1_1_function_generator}\index{Function\+Generator.\+Function\+Generator@{Function\+Generator.\+Function\+Generator}}
+
+
+This class wraps much of the functionality required to control an Agilent 33522\+A function generator over U\+S\+B.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{class_function_generator_1_1_function_generator_ac556755f798d3845b3ecde0fb7338747}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, instrument\+Selector)
+\begin{DoxyCompactList}\small\item\em The constructor for the function generator object needs to know the U\+S\+B\+T\+M\+C address of the device being used. \end{DoxyCompactList}\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a329b4c54f381abf22f1c3a106ca7a5da}{get\+Idn} (self)
+\begin{DoxyCompactList}\small\item\em Asks the function generator to identify itself and retuns a unicode string of the response. \end{DoxyCompactList}\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a44f94d5aba0d2cc604a2c0d310090f83}{write} (self, command)
+\begin{DoxyCompactList}\small\item\em Writes the given custom S\+C\+P\+I command to the instrument over usbtmc. \end{DoxyCompactList}\item 
+def \hyperlink{class_function_generator_1_1_function_generator_abfe8847e48e592c1bb7779d8e0cd8720}{get\+Status} ()
+\begin{DoxyCompactList}\small\item\em Gets function generator\textquotesingle{}s status and what output/settings are currently set to. \end{DoxyCompactList}\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a35c5bc4df66d86595b825e13aba94c1a}{push\+Sin}
+\begin{DoxyCompactList}\small\item\em Pushes sin wave of the given parameters to function generator A\+N\+D turns on output. \end{DoxyCompactList}\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a2f5cd14920dd4119f21ec9dca71481c4}{set\+Sin}
+\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a93a5580a96697fa28f311dd7bdb1c63f}{get\+Error} (self)
+\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a600d8bcdc6ee83dfdff2a55e6f1c14ba}{load\+From\+Memory} (self, state\+Name)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_function_generator_1_1_function_generator_a6232661c93750461489cadd41b721d56}{addr}
+\item 
+\hyperlink{class_function_generator_1_1_function_generator_a31f74674e20ebd808c28abf817cafccf}{instr}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dictionary \hyperlink{class_function_generator_1_1_function_generator_af0f7aaea68bd468c28524373f6005d8f}{selector\+Map} = \{1\+:\char`\"{}U\+S\+B0\+::2391\+::8967\+::\+M\+Y50000586\+::\+I\+N\+S\+T\+R\char`\"{}\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class wraps much of the functionality required to control an Agilent 33522\+A function generator over U\+S\+B. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_function_generator_1_1_function_generator_ac556755f798d3845b3ecde0fb7338747}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{\+\_\+\+\_\+init\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{instrument\+Selector}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_ac556755f798d3845b3ecde0fb7338747}
+
+
+The constructor for the function generator object needs to know the U\+S\+B\+T\+M\+C address of the device being used. 
+
+The address can be directly supplied as a string, or an integer representing the function generator in Dr. Nightingale\textquotesingle{}s lab can be passed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em instrument\+Selector} & Either a string representing the U\+S\+B\+T\+M\+C address of the function generator or a int identifier representing one of the function generators in Kathy Nightingale\textquotesingle{}s lab. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_function_generator_1_1_function_generator_a93a5580a96697fa28f311dd7bdb1c63f}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!get\+Error@{get\+Error}}
+\index{get\+Error@{get\+Error}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{get\+Error}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+get\+Error (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a93a5580a96697fa28f311dd7bdb1c63f}
+\hypertarget{class_function_generator_1_1_function_generator_a329b4c54f381abf22f1c3a106ca7a5da}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!get\+Idn@{get\+Idn}}
+\index{get\+Idn@{get\+Idn}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{get\+Idn}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+get\+Idn (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a329b4c54f381abf22f1c3a106ca7a5da}
+
+
+Asks the function generator to identify itself and retuns a unicode string of the response. 
+
+\begin{DoxyReturn}{Returns}
+
+
+identity a unicode string the attached function generator uses to identify itself. 
+\end{DoxyReturn}
+\hypertarget{class_function_generator_1_1_function_generator_abfe8847e48e592c1bb7779d8e0cd8720}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!get\+Status@{get\+Status}}
+\index{get\+Status@{get\+Status}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{get\+Status}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+get\+Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_abfe8847e48e592c1bb7779d8e0cd8720}
+
+
+Gets function generator\textquotesingle{}s status and what output/settings are currently set to. 
+
+\begin{DoxyReturn}{Returns}
+
+
+status string of current status 
+\end{DoxyReturn}
+\hypertarget{class_function_generator_1_1_function_generator_a600d8bcdc6ee83dfdff2a55e6f1c14ba}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!load\+From\+Memory@{load\+From\+Memory}}
+\index{load\+From\+Memory@{load\+From\+Memory}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{load\+From\+Memory}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+load\+From\+Memory (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{state\+Name}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a600d8bcdc6ee83dfdff2a55e6f1c14ba}
+\hypertarget{class_function_generator_1_1_function_generator_a35c5bc4df66d86595b825e13aba94c1a}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!push\+Sin@{push\+Sin}}
+\index{push\+Sin@{push\+Sin}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{push\+Sin}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+push\+Sin (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{frequency, }
+\item[{}]{amplitude = {\ttfamily 1}, }
+\item[{}]{offset = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a35c5bc4df66d86595b825e13aba94c1a}
+
+
+Pushes sin wave of the given parameters to function generator A\+N\+D turns on output. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frequency} & the frequency in Hz of the sin wave \\
+\hline
+{\em amplitude} & (optional, default set to 1\+V), amplitude of the sin wave in volts \\
+\hline
+{\em offset} & (optional, default set to 0\+V), dc offset of sin wave in volts. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_function_generator_1_1_function_generator_a2f5cd14920dd4119f21ec9dca71481c4}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!set\+Sin@{set\+Sin}}
+\index{set\+Sin@{set\+Sin}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{set\+Sin}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+set\+Sin (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{frequencey, }
+\item[{}]{amplitude = {\ttfamily 1}, }
+\item[{}]{offset = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a2f5cd14920dd4119f21ec9dca71481c4}
+\hypertarget{class_function_generator_1_1_function_generator_a44f94d5aba0d2cc604a2c0d310090f83}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!write@{write}}
+\index{write@{write}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+write (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{command}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a44f94d5aba0d2cc604a2c0d310090f83}
+
+
+Writes the given custom S\+C\+P\+I command to the instrument over usbtmc. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & A string representing the S\+C\+P\+I command \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_function_generator_1_1_function_generator_a6232661c93750461489cadd41b721d56}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!addr@{addr}}
+\index{addr@{addr}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{addr}]{\setlength{\rightskip}{0pt plus 5cm}Function\+Generator.\+Function\+Generator.\+addr}\label{class_function_generator_1_1_function_generator_a6232661c93750461489cadd41b721d56}
+\hypertarget{class_function_generator_1_1_function_generator_a31f74674e20ebd808c28abf817cafccf}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!instr@{instr}}
+\index{instr@{instr}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{instr}]{\setlength{\rightskip}{0pt plus 5cm}Function\+Generator.\+Function\+Generator.\+instr}\label{class_function_generator_1_1_function_generator_a31f74674e20ebd808c28abf817cafccf}
+\hypertarget{class_function_generator_1_1_function_generator_af0f7aaea68bd468c28524373f6005d8f}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!selector\+Map@{selector\+Map}}
+\index{selector\+Map@{selector\+Map}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{selector\+Map}]{\setlength{\rightskip}{0pt plus 5cm}dictionary Function\+Generator.\+Function\+Generator.\+selector\+Map = \{1\+:\char`\"{}U\+S\+B0\+::2391\+::8967\+::\+M\+Y50000586\+::\+I\+N\+S\+T\+R\char`\"{}\}\hspace{0.3cm}{\ttfamily [static]}}\label{class_function_generator_1_1_function_generator_af0f7aaea68bd468c28524373f6005d8f}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_function_generator_8py}{Function\+Generator.\+py}\end{DoxyCompactItemize}
