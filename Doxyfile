@@ -6,7 +6,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = Fgen Interface 
 PROJECT_NUMBER         = 
-PROJECT_BRIEF          = "A set of tools for bumper pool data analysis."
+PROJECT_BRIEF          = "Tools to control the Agilent 33522A function generator over USB"
 PROJECT_LOGO           = 
 OUTPUT_DIRECTORY       = /Users/suyashkumar/Dropbox/Duke/Lab/fgen_interface/docs
 CREATE_SUBDIRS         = NO
