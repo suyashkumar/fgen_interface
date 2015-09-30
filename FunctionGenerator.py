@@ -21,4 +21,45 @@ class FunctionGenerator:
             self.addr=instrumentSelector
             print "str"
 
+        self.instr =  usbtmc.Instrument(self.addr) # Instantiate instrument
+
+    def getIdn(self):
+        """
+        Asks the function generator to identify itself and retuns a unicode string of the response.
+        Returns:
+            identity:   a unicode string the attached function generator uses to identify itself.
+        """
+        return self.instr.ask("*IDN?")
+    def write(self,command):
+        """
+        Writes the given custom SCPI command to the instrument over usbtmc
+        Args:
+            command:    A string representing the SCPI command 
+        """
+        self.instr.write(command)
+    def getStatus():
+        """
+            Gets function generator's status and what output/settings are currently set to
+            Returns:
+              status:   string of current status  
+        """
+        return self.instr.ask("APPLy?")
+    def pushSin(self,frequency, amplitude=1, offset=0):
+        """
+        Pushes sin wave of the given parameters to function generator AND turns on output
+        Args:
+            frequency:  the frequency in Hz of the sin wave
+            amplitude:  (optional, default set to 1V), amplitude of the sin wave in volts
+            offset:     (optional, default set to 0V), dc offset of sin wave in volts. 
+        """
+        self.write("APPL:SIN "+str(frequency)+", "+str(amplitude)+", "+str(offset))
+    def setSin(self, frequencey, amplitude=1, offset=0):
+        print "Set sin"
+    def getError(self):
+        return self.instr.ask("SYSTem:ERRor?")
+
+    def loadFromMemory(self, stateName):
+        self.instr.write("MMEMory:LOAD:STATe \""+str(stateName)+"\"")
+        
+        
         
