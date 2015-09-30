@@ -56,9 +56,19 @@ class FunctionGenerator:
     def setSin(self, frequencey, amplitude=1, offset=0):
         print "Set sin"
     def getError(self):
+        """
+        Gets the next error off the queue.
+        Returns:
+            error:  The next error off the queue
+        """
         return self.instr.ask("SYSTem:ERRor?")
 
     def loadFromMemory(self, stateName):
+        """
+        Loads given function generator state from a .sta file already on the function generator's memory.
+        Args:
+            stateName:  The string name of the state (without the .sta extension). For example "HIFU_SIM"
+        """
         self.instr.write("MMEMory:LOAD:STATe \""+str(stateName)+"\"")
         
         

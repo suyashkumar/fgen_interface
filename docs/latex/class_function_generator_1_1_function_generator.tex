@@ -21,9 +21,9 @@ def \hyperlink{class_function_generator_1_1_function_generator_a35c5bc4df66d8659
 def \hyperlink{class_function_generator_1_1_function_generator_a2f5cd14920dd4119f21ec9dca71481c4}{set\+Sin}
 \item 
 def \hyperlink{class_function_generator_1_1_function_generator_a93a5580a96697fa28f311dd7bdb1c63f}{get\+Error} (self)
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the next error off the queue. \end{DoxyCompactList}\item 
 def \hyperlink{class_function_generator_1_1_function_generator_a600d8bcdc6ee83dfdff2a55e6f1c14ba}{load\+From\+Memory} (self, state\+Name)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Loads given function generator state from a .sta file already on the function generator\textquotesingle{}s memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -71,6 +71,15 @@ The address can be directly supplied as a string, or an integer representing the
 \item[{}]{self}
 \end{DoxyParamCaption}
 )}\label{class_function_generator_1_1_function_generator_a93a5580a96697fa28f311dd7bdb1c63f}
+
+
+Gets the next error off the queue. 
+
+\begin{DoxyReturn}{Returns}
+
+
+error The next error off the queue 
+\end{DoxyReturn}
 \hypertarget{class_function_generator_1_1_function_generator_a329b4c54f381abf22f1c3a106ca7a5da}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!get\+Idn@{get\+Idn}}
 \index{get\+Idn@{get\+Idn}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
 \subsubsection[{get\+Idn}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+get\+Idn (
@@ -111,6 +120,15 @@ status string of current status
 \item[{}]{state\+Name}
 \end{DoxyParamCaption}
 )}\label{class_function_generator_1_1_function_generator_a600d8bcdc6ee83dfdff2a55e6f1c14ba}
+
+
+Loads given function generator state from a .sta file already on the function generator\textquotesingle{}s memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state\+Name} & The string name of the state (without the .sta extension). For example \char`\"{}\+H\+I\+F\+U\+\_\+\+S\+I\+M\char`\"{} \\
+\hline
+\end{DoxyParams}
 \hypertarget{class_function_generator_1_1_function_generator_a35c5bc4df66d86595b825e13aba94c1a}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!push\+Sin@{push\+Sin}}
 \index{push\+Sin@{push\+Sin}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
 \subsubsection[{push\+Sin}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+push\+Sin (
