@@ -23,7 +23,11 @@ def \hyperlink{class_function_generator_1_1_function_generator_a2f5cd14920dd4119
 def \hyperlink{class_function_generator_1_1_function_generator_a93a5580a96697fa28f311dd7bdb1c63f}{get\+Error} (self)
 \begin{DoxyCompactList}\small\item\em Gets the next error off the queue. \end{DoxyCompactList}\item 
 def \hyperlink{class_function_generator_1_1_function_generator_a600d8bcdc6ee83dfdff2a55e6f1c14ba}{load\+From\+Memory} (self, state\+Name)
-\begin{DoxyCompactList}\small\item\em Loads given function generator state from a .sta file already on the function generator\textquotesingle{}s memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Loads given function generator state from a .sta file already on the function generator\textquotesingle{}s memory. \end{DoxyCompactList}\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a2e963bfd957e16f574f4e06bbdc0bf7e}{load\+Arbitrary\+Waveform} (self, int\+Waveform)
+\begin{DoxyCompactList}\small\item\em Loads arbitrary waveform into function generator\textquotesingle{}s V\+O\+L\+A\+T\+I\+L\+E memory (supports between 8 and 16,000 points). \end{DoxyCompactList}\item 
+def \hyperlink{class_function_generator_1_1_function_generator_a11d42f7cad0d19efd1fcf879d05f03fc}{push\+Arbitrary\+Waveform} (self, int\+Waveform)
+\begin{DoxyCompactList}\small\item\em Loads arbitrary waveform into memory according to \hyperlink{class_function_generator_1_1_function_generator_a2e963bfd957e16f574f4e06bbdc0bf7e}{load\+Arbitrary\+Waveform()} and then selects and outputs the waveform. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -112,6 +116,25 @@ Gets function generator\textquotesingle{}s status and what output/settings are c
 
 status string of current status 
 \end{DoxyReturn}
+\hypertarget{class_function_generator_1_1_function_generator_a2e963bfd957e16f574f4e06bbdc0bf7e}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!load\+Arbitrary\+Waveform@{load\+Arbitrary\+Waveform}}
+\index{load\+Arbitrary\+Waveform@{load\+Arbitrary\+Waveform}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{load\+Arbitrary\+Waveform}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+load\+Arbitrary\+Waveform (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{int\+Waveform}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a2e963bfd957e16f574f4e06bbdc0bf7e}
+
+
+Loads arbitrary waveform into function generator\textquotesingle{}s V\+O\+L\+A\+T\+I\+L\+E memory (supports between 8 and 16,000 points). 
+
+M\+U\+S\+T be integers between -\/2047 and +2047
+
+
+\begin{DoxyParams}{Parameters}
+{\em int\+Waveform} & A list of integers between -\/2047 and +2047 with length between 8 and 16,000 inclusive. \\
+\hline
+\end{DoxyParams}
 \hypertarget{class_function_generator_1_1_function_generator_a600d8bcdc6ee83dfdff2a55e6f1c14ba}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!load\+From\+Memory@{load\+From\+Memory}}
 \index{load\+From\+Memory@{load\+From\+Memory}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
 \subsubsection[{load\+From\+Memory}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+load\+From\+Memory (
@@ -127,6 +150,23 @@ Loads given function generator state from a .sta file already on the function ge
 
 \begin{DoxyParams}{Parameters}
 {\em state\+Name} & The string name of the state (without the .sta extension). For example \char`\"{}\+H\+I\+F\+U\+\_\+\+S\+I\+M\char`\"{} \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_function_generator_1_1_function_generator_a11d42f7cad0d19efd1fcf879d05f03fc}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!push\+Arbitrary\+Waveform@{push\+Arbitrary\+Waveform}}
+\index{push\+Arbitrary\+Waveform@{push\+Arbitrary\+Waveform}!Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}}
+\subsubsection[{push\+Arbitrary\+Waveform}]{\setlength{\rightskip}{0pt plus 5cm}def Function\+Generator.\+Function\+Generator.\+push\+Arbitrary\+Waveform (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{int\+Waveform}
+\end{DoxyParamCaption}
+)}\label{class_function_generator_1_1_function_generator_a11d42f7cad0d19efd1fcf879d05f03fc}
+
+
+Loads arbitrary waveform into memory according to \hyperlink{class_function_generator_1_1_function_generator_a2e963bfd957e16f574f4e06bbdc0bf7e}{load\+Arbitrary\+Waveform()} and then selects and outputs the waveform. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em int\+Waveform} & A list of integers between -\/2047 and +2047 with length between 8 and 16,000 inclusive. \\
 \hline
 \end{DoxyParams}
 \hypertarget{class_function_generator_1_1_function_generator_a35c5bc4df66d86595b825e13aba94c1a}{}\index{Function\+Generator\+::\+Function\+Generator@{Function\+Generator\+::\+Function\+Generator}!push\+Sin@{push\+Sin}}

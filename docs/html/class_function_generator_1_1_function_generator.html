@@ -144,6 +144,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a600d8bcdc6ee83dfdff2a55e6f1c14ba"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_function_generator_1_1_function_generator.html#a600d8bcdc6ee83dfdff2a55e6f1c14ba">loadFromMemory</a> (self, stateName)</td></tr>
 <tr class="memdesc:a600d8bcdc6ee83dfdff2a55e6f1c14ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads given function generator state from a .sta file already on the function generator's memory.  <a href="#a600d8bcdc6ee83dfdff2a55e6f1c14ba">More...</a><br /></td></tr>
 <tr class="separator:a600d8bcdc6ee83dfdff2a55e6f1c14ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e963bfd957e16f574f4e06bbdc0bf7e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_function_generator_1_1_function_generator.html#a2e963bfd957e16f574f4e06bbdc0bf7e">loadArbitraryWaveform</a> (self, intWaveform)</td></tr>
+<tr class="memdesc:a2e963bfd957e16f574f4e06bbdc0bf7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads arbitrary waveform into function generator's VOLATILE memory (supports between 8 and 16,000 points).  <a href="#a2e963bfd957e16f574f4e06bbdc0bf7e">More...</a><br /></td></tr>
+<tr class="separator:a2e963bfd957e16f574f4e06bbdc0bf7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11d42f7cad0d19efd1fcf879d05f03fc"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_function_generator_1_1_function_generator.html#a11d42f7cad0d19efd1fcf879d05f03fc">pushArbitraryWaveform</a> (self, intWaveform)</td></tr>
+<tr class="memdesc:a11d42f7cad0d19efd1fcf879d05f03fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads arbitrary waveform into memory according to <a class="el" href="class_function_generator_1_1_function_generator.html#a2e963bfd957e16f574f4e06bbdc0bf7e" title="Loads arbitrary waveform into function generator&#39;s VOLATILE memory (supports between 8 and 16...">loadArbitraryWaveform()</a> and then selects and outputs the waveform.  <a href="#a11d42f7cad0d19efd1fcf879d05f03fc">More...</a><br /></td></tr>
+<tr class="separator:a11d42f7cad0d19efd1fcf879d05f03fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -258,6 +264,41 @@ status string of current status </dd></dl>
 
 </div>
 </div>
+<a class="anchor" id="a2e963bfd957e16f574f4e06bbdc0bf7e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def FunctionGenerator.FunctionGenerator.loadArbitraryWaveform </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>intWaveform</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Loads arbitrary waveform into function generator's VOLATILE memory (supports between 8 and 16,000 points). </p>
+<p>MUST be integers between -2047 and +2047</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">intWaveform</td><td>A list of integers between -2047 and +2047 with length between 8 and 16,000 inclusive. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a600d8bcdc6ee83dfdff2a55e6f1c14ba"></a>
 <div class="memitem">
 <div class="memproto">
@@ -286,6 +327,40 @@ status string of current status </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">stateName</td><td>The string name of the state (without the .sta extension). For example "HIFU_SIM" </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a11d42f7cad0d19efd1fcf879d05f03fc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def FunctionGenerator.FunctionGenerator.pushArbitraryWaveform </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>intWaveform</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Loads arbitrary waveform into memory according to <a class="el" href="class_function_generator_1_1_function_generator.html#a2e963bfd957e16f574f4e06bbdc0bf7e" title="Loads arbitrary waveform into function generator&#39;s VOLATILE memory (supports between 8 and 16...">loadArbitraryWaveform()</a> and then selects and outputs the waveform. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">intWaveform</td><td>A list of integers between -2047 and +2047 with length between 8 and 16,000 inclusive. </td></tr>
   </table>
   </dd>
 </dl>
@@ -466,7 +541,7 @@ status string of current status </dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_function_generator.html">FunctionGenerator</a></li><li class="navelem"><a class="el" href="class_function_generator_1_1_function_generator.html">FunctionGenerator</a></li>
-    <li class="footer">Generated on Wed Sep 30 2015 15:48:24 for FgenInterface by
+    <li class="footer">Generated on Tue Oct 13 2015 17:45:21 for FgenInterface by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
