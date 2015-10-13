@@ -1,4 +1,6 @@
 import usbtmc
+import sys
+
 class FunctionGenerator:
     """
     This class wraps much of the functionality required to control an Agilent 33522A function generator over USB.
@@ -70,6 +72,36 @@ class FunctionGenerator:
             stateName:  The string name of the state (without the .sta extension). For example "HIFU_SIM"
         """
         self.instr.write("MMEMory:LOAD:STATe \""+str(stateName)+"\"")
+   
+    def loadArbitraryWaveform(self, intWaveform):
+        """
+        Loads arbitrary waveform into function generator's VOLATILE memory (supports between 8 and 16,000 points). MUST be integers between -2047 and +2047
+        Args:
+            intWaveform:    A list of integers between -2047 and +2047 with length between 8 and 16,000 inclusive. 
+        """
+        if (not all((isinstance(n, int) and n>=-2047 and n<=2047) for n in intWaveform)):
+            print "Oops, you input integer wavefrom is not well formed. The problem is one of the following:"
+            # Raise custom Exception here
+            #TODO: FINISH
+            sys.exit(1)
+        #self.instr.write("DATA:DEL VOLATILE")
+        sendString="DATA:DAC VOLATILE, " + str(intWaveform)[1:len(str(intWaveform))-1]
+        print sendString
+        self.instr.write(sendString)
         
+       
+
+    def pushArbitraryWaveform(self, intWaveform):
+        """
+        Loads arbitrary waveform into memory according to loadArbitraryWaveform() and then selects and outputs the waveform. 
+        Args:
+            intWaveform:    A list of integers between -2047 and +2047 with length between 8 and 16,000 inclusive. 
+        """
         
+        self.loadArbitraryWaveform(intWaveform) # Loads arb waveform into volatile memory
+        self.instr.write("FUNC:ARB VOLATILE") # Selects volatile for the arb shape
+        self.instr.write("FUNC:SHAP ARB") # Selects the arb function
+
+
+
         
