@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FunctionGenerator module &mdash; Agilent 33522A Function Generator USB Interface 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Agilent 33522A Function Generator USB Interface 0.0.0 documentation" href="index.html" />
+    <link rel="up" title="." href="modules.html" />
+    <link rel="next" title="fgen_test module" href="fgen_test.html" />
+    <link rel="prev" title="." href="modules.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fgen_test.html" title="fgen_test module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="."
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Agilent 33522A Function Generator USB Interface 0.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">.</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-FunctionGenerator">
+<span id="functiongenerator-module"></span><h1>FunctionGenerator module<a class="headerlink" href="#module-FunctionGenerator" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="FunctionGenerator.FunctionGenerator">
+<em class="property">class </em><code class="descclassname">FunctionGenerator.</code><code class="descname">FunctionGenerator</code><span class="sig-paren">(</span><em>instrumentSelector</em><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class wraps much of the functionality required to control an Agilent
+33522A function generator over USB.</p>
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.getError">
+<code class="descname">getError</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.getError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the next error off the queue.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">error &#8211; The next error off the queue</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.getIdn">
+<code class="descname">getIdn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.getIdn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asks the function generator to identify itself and retuns a unicode
+string of the response.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">identity &#8211; a unicode string the attached function generator</td>
+</tr>
+</tbody>
+</table>
+<p>uses to identify itself.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.getStatus">
+<code class="descname">getStatus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.getStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets function generator&#8217;s status and what output/settings are currently
+set to</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">status &#8211; string of current status</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.loadArbitraryWaveform">
+<code class="descname">loadArbitraryWaveform</code><span class="sig-paren">(</span><em>intWaveform</em><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.loadArbitraryWaveform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads arbitrary waveform into function generator&#8217;s VOLATILE memory
+(supports between 8 and 16,000 points). MUST be integers between -2047
+and +2047</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>intWaveform</strong> &#8211; A list of integers between -2047 and +2047 with</td>
+</tr>
+</tbody>
+</table>
+<p>length between 8 and 16,000 inclusive.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.loadFromMemory">
+<code class="descname">loadFromMemory</code><span class="sig-paren">(</span><em>stateName</em><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.loadFromMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads given function generator state from a .sta file already on the
+function generator&#8217;s memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stateName</strong> &#8211; The string name of the state (without the .sta</td>
+</tr>
+</tbody>
+</table>
+<p>extension). For example &#8220;HIFU_SIM&#8221;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.pushArbitraryWaveform">
+<code class="descname">pushArbitraryWaveform</code><span class="sig-paren">(</span><em>intWaveform</em><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.pushArbitraryWaveform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads arbitrary waveform into memory according to
+loadArbitraryWaveform() and then selects and outputs the waveform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>intWaveform</strong> &#8211; A list of integers between -2047 and +2047 with</td>
+</tr>
+</tbody>
+</table>
+<p>length between 8 and 16,000 inclusive.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.pushSin">
+<code class="descname">pushSin</code><span class="sig-paren">(</span><em>frequency</em>, <em>amplitude=1</em>, <em>offset=0</em><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.pushSin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pushes sin wave of the given parameters to function generator AND turns
+on output</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>frequency</strong> &#8211; the frequency in Hz of the sin wave</li>
+<li><strong>amplitude</strong> &#8211; (optional, default set to 1V), amplitude of the sin</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>wave in volts
+:param offset:     (optional, default set to 0V), dc offset of sin wave
+in volts.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="FunctionGenerator.FunctionGenerator.selectorMap">
+<code class="descname">selectorMap</code><em class="property"> = {1: 'USB0::2391::8967::MY50000586::INSTR'}</em><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.selectorMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.setSin">
+<code class="descname">setSin</code><span class="sig-paren">(</span><em>frequencey</em>, <em>amplitude=1</em>, <em>offset=0</em><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.setSin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FunctionGenerator.FunctionGenerator.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="headerlink" href="#FunctionGenerator.FunctionGenerator.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the given custom SCPI command to the instrument over usbtmc</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> &#8211; A string representing the SCPI command</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">.</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fgen_test.html"
+                        title="next chapter">fgen_test module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/FunctionGenerator.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fgen_test.html" title="fgen_test module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="."
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Agilent 33522A Function Generator USB Interface 0.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >.</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Suyash Kumar.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
