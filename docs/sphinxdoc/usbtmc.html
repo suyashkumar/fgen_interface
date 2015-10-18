@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>usbtmc package &mdash; Agilent 33522A Function Generator USB Interface 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Agilent 33522A Function Generator USB Interface 0.0.0 documentation" href="index.html" />
+    <link rel="up" title="." href="modules.html" />
+    <link rel="prev" title="fgen_test module" href="fgen_test.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fgen_test.html" title="fgen_test module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Agilent 33522A Function Generator USB Interface 0.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">.</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="usbtmc-package">
+<h1>usbtmc package<a class="headerlink" href="#usbtmc-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-usbtmc.usbtmc">
+<span id="usbtmc-usbtmc-module"></span><h2>usbtmc.usbtmc module<a class="headerlink" href="#module-usbtmc.usbtmc" title="Permalink to this headline">¶</a></h2>
+<p>Python USBTMC driver</p>
+<p>Copyright (c) 2012 Alex Forencich</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &#8220;Software&#8221;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+<dl class="class">
+<dt id="usbtmc.usbtmc.Instrument">
+<em class="property">class </em><code class="descclassname">usbtmc.usbtmc.</code><code class="descname">Instrument</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>USBTMC instrument interface client</p>
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.advantest_read_myid">
+<code class="descname">advantest_read_myid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.advantest_read_myid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read MyID value from Advantest and ADCMT devices</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.ask">
+<code class="descname">ask</code><span class="sig-paren">(</span><em>message</em>, <em>num=-1</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.ask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write then read string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.ask_raw">
+<code class="descname">ask_raw</code><span class="sig-paren">(</span><em>data</em>, <em>num=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.ask_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write then read binary data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send clear command</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.get_capabilities">
+<code class="descname">get_capabilities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.get_capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.is_usb488">
+<code class="descname">is_usb488</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.is_usb488" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.local">
+<code class="descname">local</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.local" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send local command</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.lock">
+<code class="descname">lock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send lock command</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.pack_bulk_out_header">
+<code class="descname">pack_bulk_out_header</code><span class="sig-paren">(</span><em>msgid</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.pack_bulk_out_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.pack_dev_dep_msg_in_header">
+<code class="descname">pack_dev_dep_msg_in_header</code><span class="sig-paren">(</span><em>transfer_size</em>, <em>term_char=None</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.pack_dev_dep_msg_in_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.pack_dev_dep_msg_out_header">
+<code class="descname">pack_dev_dep_msg_out_header</code><span class="sig-paren">(</span><em>transfer_size</em>, <em>eom=True</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.pack_dev_dep_msg_out_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.pack_usb488_trigger">
+<code class="descname">pack_usb488_trigger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.pack_usb488_trigger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.pack_vendor_specific_in_header">
+<code class="descname">pack_vendor_specific_in_header</code><span class="sig-paren">(</span><em>transfer_size</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.pack_vendor_specific_in_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.pack_vendor_specific_out_header">
+<code class="descname">pack_vendor_specific_out_header</code><span class="sig-paren">(</span><em>transfer_size</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.pack_vendor_specific_out_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.pulse">
+<code class="descname">pulse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.pulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a pulse indicator request, this should blink a light
+for 500-1000ms and then turn off again. (Only if supported)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>num=-1</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read string from instrument</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.read_raw">
+<code class="descname">read_raw</code><span class="sig-paren">(</span><em>num=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.read_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read binary data from instrument</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.read_stb">
+<code class="descname">read_stb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.read_stb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read status byte</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.remote">
+<code class="descname">remote</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.remote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send remote command</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.trigger">
+<code class="descname">trigger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.trigger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send trigger command</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.unlock">
+<code class="descname">unlock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.unlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send unlock command</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.unpack_bulk_in_header">
+<code class="descname">unpack_bulk_in_header</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.unpack_bulk_in_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.unpack_dev_dep_resp_header">
+<code class="descname">unpack_dev_dep_resp_header</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.unpack_dev_dep_resp_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>message</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write string to instrument</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="usbtmc.usbtmc.Instrument.write_raw">
+<code class="descname">write_raw</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.Instrument.write_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write binary data to instrument</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="usbtmc.usbtmc.UsbtmcException">
+<em class="property">exception </em><code class="descclassname">usbtmc.usbtmc.</code><code class="descname">UsbtmcException</code><span class="sig-paren">(</span><em>err=None</em>, <em>note=None</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.UsbtmcException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<dl class="attribute">
+<dt id="usbtmc.usbtmc.UsbtmcException.em">
+<code class="descname">em</code><em class="property"> = {0: 'No error'}</em><a class="headerlink" href="#usbtmc.usbtmc.UsbtmcException.em" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="usbtmc.usbtmc.find_device">
+<code class="descclassname">usbtmc.usbtmc.</code><code class="descname">find_device</code><span class="sig-paren">(</span><em>idVendor=None</em>, <em>idProduct=None</em>, <em>iSerial=None</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.find_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find USBTMC instrument</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="usbtmc.usbtmc.list_devices">
+<code class="descclassname">usbtmc.usbtmc.</code><code class="descname">list_devices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.list_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all connected USBTMC devices</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="usbtmc.usbtmc.parse_visa_resource_string">
+<code class="descclassname">usbtmc.usbtmc.</code><code class="descname">parse_visa_resource_string</code><span class="sig-paren">(</span><em>resource_string</em><span class="sig-paren">)</span><a class="headerlink" href="#usbtmc.usbtmc.parse_visa_resource_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-usbtmc.version">
+<span id="usbtmc-version-module"></span><h2>usbtmc.version module<a class="headerlink" href="#module-usbtmc.version" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-usbtmc">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-usbtmc" title="Permalink to this headline">¶</a></h2>
+<p>Python USBTMC driver</p>
+<p>Copyright (c) 2012 Alex Forencich</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &#8220;Software&#8221;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">usbtmc package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-usbtmc.usbtmc">usbtmc.usbtmc module</a></li>
+<li><a class="reference internal" href="#module-usbtmc.version">usbtmc.version module</a></li>
+<li><a class="reference internal" href="#module-usbtmc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fgen_test.html"
+                        title="previous chapter">fgen_test module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/usbtmc.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fgen_test.html" title="fgen_test module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Agilent 33522A Function Generator USB Interface 0.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >.</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Suyash Kumar.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
