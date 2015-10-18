@@ -79,8 +79,8 @@ class FunctionGenerator:
     def getError(self):
         """
         Gets the next error off the queue.
-        Returns:
-            error:  The next error off the queue
+       
+        :returns: error -- The next error off the queue
         """
         return self.instr.ask("SYSTem:ERRor?")
 
