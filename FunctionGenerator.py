@@ -131,7 +131,6 @@ class FunctionGenerator:
             print sline
             if (len(sline)>0) and (sline[0][0] != '#'):
                 self.instr.write(sline)
-                time.sleep(0.1)
                 errmsg = self.getError()
                 if (errmsg[0][0] == '-'):
                     print errmsg
@@ -141,6 +140,9 @@ class FunctionGenerator:
         """
         self.instr.write("*CLS")
     def reset(self):
+        """
+        Resets function generator to defaults
+        """
         self.instr.write("*RST")
     def setOutput(self,channel,state):
         """
