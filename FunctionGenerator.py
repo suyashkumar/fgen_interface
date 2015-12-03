@@ -6,7 +6,7 @@ class FunctionGenerator:
     __author__ = "Suyash Kumar"
 
     # Holds USBTMC addresses of fgens in the Nightingale lab
-    selectorMap = {1: "USB0::2391::8967::MY50000586::INSTR"}
+    selectorMap = {1: "USB0::2391::8967::INSTR"}
 
     def __init__(self, instrumentSelector):
         """
@@ -117,7 +117,45 @@ class FunctionGenerator:
             str(intWaveform)[1:len(str(intWaveform))-1]
         print sendString
         self.instr.write(sendString)
-
+    def loadSettings(self, filename):
+        """
+        Loads a series of settings from a text file.
+        Empty lines and lines beginning with # are ignored
+        TODO: Query error stack after each line, to make sure we abort in case of error. Should probably turn all outputs OFF in such a case, too.
+        """
+        import time
+        print "Loading from " + filename + ":"
+        f = open(filename,'r')
+        for line in f:
+            sline = line.strip()
+            print sline
+            if (len(sline)>0) and (sline[0][0] != '#'):
+                self.instr.write(sline)
+            time.sleep(0.1)
+    def clearErrors(self):
+        """
+        Clears our any Error statuses from the function generator, eliminating the need to power cycle.
+        """
+        self.instr.write("*CLS")
+    def setOutput(self,channel,state):
+        """
+        sets the specified channel to the ON or OFF state
+        """
+        if (channel == 1) or (channel == 2):
+            if (state == 'ON') or (state == 1):
+                cmdstate = 'ON'
+            else: 
+                if (state == 'OFF') or (state == 0):
+                    cmdstate = 'OFF'
+                else:
+                    print('ERROR:Invalid State')
+                    return
+        else:
+            print('ERROR:Invalid Channel')
+            return
+        syscmd = 'OUTPUT'+str(channel)+" "+cmdstate
+        print syscmd
+        self.instr.write(syscmd)
     def pushArbitraryWaveform(self, intWaveform):
         """
         Loads arbitrary waveform into memory according to
