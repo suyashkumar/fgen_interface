@@ -131,12 +131,17 @@ class FunctionGenerator:
             print sline
             if (len(sline)>0) and (sline[0][0] != '#'):
                 self.instr.write(sline)
-            time.sleep(0.1)
+                time.sleep(0.1)
+                errmsg = self.getError()
+                if (errmsg[0][0] == '-'):
+                    print errmsg
     def clearErrors(self):
         """
         Clears our any Error statuses from the function generator, eliminating the need to power cycle.
         """
         self.instr.write("*CLS")
+    def reset(self):
+        self.instr.write("*RST")
     def setOutput(self,channel,state):
         """
         sets the specified channel to the ON or OFF state
