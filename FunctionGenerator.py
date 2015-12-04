@@ -58,7 +58,7 @@ class FunctionGenerator:
         :returns: status -- string of current status
         """
         return self.instr.ask("APPLy?")
-    def sendTrigger(self)
+    def sendTrigger(self):
         """
         Sends a manual trigger to the bus
         """
