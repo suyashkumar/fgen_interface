@@ -58,7 +58,12 @@ class FunctionGenerator:
         :returns: status -- string of current status
         """
         return self.instr.ask("APPLy?")
-
+    def sendTrigger(self)
+        """
+        Sends a manual trigger to the bus
+        """
+        set.instr.write('*TRG')
+        
     def pushSin(self, frequency, amplitude=1, offset=0):
         """
         Pushes sin wave of the given parameters to function generator AND turns
@@ -117,11 +122,14 @@ class FunctionGenerator:
             str(intWaveform)[1:len(str(intWaveform))-1]
         print sendString
         self.instr.write(sendString)
+        
     def loadSettings(self, filename):
         """
         Loads a series of settings from a text file.
         Empty lines and lines beginning with # are ignored
         TODO: Query error stack after each line, to make sure we abort in case of error. Should probably turn all outputs OFF in such a case, too.
+        
+        :param filename: string name of text file to read from
         """
         import time
         print "Loading from " + filename + ":"
@@ -134,19 +142,29 @@ class FunctionGenerator:
                 errmsg = self.getError()
                 if (errmsg[0][0] == '-'):
                     print errmsg
+        
     def clearErrors(self):
         """
         Clears our any Error statuses from the function generator, eliminating the need to power cycle.
         """
         self.instr.write("*CLS")
+        
     def reset(self):
         """
         Resets function generator to defaults
         """
+        import time
         self.instr.write("*RST")
+        time.sleep(1)
+        self.clearErrors()
+        time.sleep(0.1)
+        
     def setOutput(self,channel,state):
         """
         sets the specified channel to the ON or OFF state
+        
+        :param channel: integer channel to control {1|2}
+        :param state: integer state {1|0} or string state {'ON'|'OFF'}
         """
         if (channel == 1) or (channel == 2):
             if (state == 'ON') or (state == 1):
@@ -163,6 +181,7 @@ class FunctionGenerator:
         syscmd = 'OUTPUT'+str(channel)+" "+cmdstate
         print syscmd
         self.instr.write(syscmd)
+        
     def pushArbitraryWaveform(self, intWaveform):
         """
         Loads arbitrary waveform into memory according to
