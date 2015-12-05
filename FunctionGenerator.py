@@ -1,11 +1,16 @@
 class FunctionGenerator:
+
     """
     This class wraps much of the functionality required to control an Agilent
     33522A function generator over USB.
-    """
-    __author__ = "Suyash Kumar"
 
-    # Holds USBTMC addresses of fgens in the Nightingale lab
+    Contributors:
+    Suyash Kumar
+    Peter Hollender
+    Mark Palmeri
+    """
+
+    # Holds USBTMC addresses of fgen
     selectorMap = {1: "USB0::2391::8967::INSTR"}
 
     def __init__(self, instrumentSelector):
@@ -13,11 +18,10 @@ class FunctionGenerator:
         The constructor for the function generator object needs to know the
         USBTMC address of the device being used. The address can be directly
         supplied as a string, or an integer representing the function generator
-        in Dr. Nightingale's lab can be passed.
 
         :param instrumentSelector: Either a string representing the USBTMC
         address of the function generator or a int identifier representing one
-        of the function generators in Kathy Nightingale's lab.
+        of the function generators.
         """
         import usbtmc
 
@@ -25,10 +29,10 @@ class FunctionGenerator:
         # address as needed
         if (isinstance(instrumentSelector, int)):
             self.addr = self.selectorMap[instrumentSelector]
-            print "int"
+            print("int")
         elif(isinstance(instrumentSelector, str)):
             self.addr = instrumentSelector
-            print "str"
+            print("str")
 
         self.instr = usbtmc.Instrument(self.addr)  # Instantiate instrument
 
@@ -46,7 +50,7 @@ class FunctionGenerator:
         """
         Writes the given custom SCPI command to the instrument over usbtmc
 
-        :param command:    A string representing the SCPI command
+        :param str command: SCPI command
         """
         self.instr.write(command)
 
@@ -58,33 +62,33 @@ class FunctionGenerator:
         :returns: status -- string of current status
         """
         return self.instr.ask("APPLy?")
+
     def sendTrigger(self):
         """
         Sends a manual trigger to the bus
         """
         set.instr.write('*TRG')
-        
+
     def pushSin(self, frequency, amplitude=1, offset=0):
         """
         Pushes sin wave of the given parameters to function generator AND turns
         on output
 
-        :param frequency:  the frequency in Hz of the sin wave
-        :param amplitude:  (optional, default set to 1V), amplitude of the sin
-        wave in volts
-        :param offset:     (optional, default set to 0V), dc offset of sin wave
-        in volts.
+        :param float frequency:  the frequency in Hz of the sin wave
+        :param float amplitude: (optional, default set to 1V), amplitude of the
+        sin wave in volts
+        :param float offset: (optional, default set to 0V), dc offset of sin
+        wave in volts.
         """
         self.write("APPL:SIN "+str(frequency)+", \
                    "+str(amplitude)+", "+str(offset))
 
     def setSin(self, frequencey, amplitude=1, offset=0):
-        print "Set sin"
+        print("Set sin")
 
     def getError(self):
-        """
-        Gets the next error off the queue.
-       
+        """Gets the next error off the queue.
+
         :returns: error -- The next error off the queue
         """
         return self.instr.ask("SYSTem:ERRor?")
@@ -105,8 +109,8 @@ class FunctionGenerator:
         (supports between 8 and 16,000 points). MUST be integers between -2047
         and +2047
 
-        :param intWaveform:    A list of integers between -2047 and +2047 with
-        length between 8 and 16,000 inclusive.
+        :param list intWaveform: A list of integers between -2047 and +2047
+        with length between 8 and 16,000 inclusive.
         """
         import sys
 
@@ -120,35 +124,38 @@ class FunctionGenerator:
         # self.instr.write("DATA:DEL VOLATILE")
         sendString = "DATA:DAC VOLATILE, " + \
             str(intWaveform)[1:len(str(intWaveform))-1]
-        print sendString
+        print(sendString)
         self.instr.write(sendString)
-        
+
     def loadSettings(self, filename):
         """
         Loads a series of settings from a text file.
         Empty lines and lines beginning with # are ignored
-        TODO: Query error stack after each line, to make sure we abort in case of error. Should probably turn all outputs OFF in such a case, too.
-        
-        :param filename: string name of text file to read from
+        TODO: Query error stack after each line, to make sure we abort in
+        case of error. Should probably turn all outputs OFF in such a case,
+        too.
+
+        :param str filename: string name of text file to read from
         """
         import time
-        print "Loading from " + filename + ":"
-        f = open(filename,'r')
+        print("Loading from " + filename + ":")
+        f = open(filename, 'r')
         for line in f:
             sline = line.strip()
-            print sline
-            if (len(sline)>0) and (sline[0][0] != '#'):
+            print(sline)
+            if (len(sline) > 0) and (sline[0][0] != '#'):
                 self.instr.write(sline)
                 errmsg = self.getError()
                 if (errmsg[0][0] == '-'):
-                    print errmsg
-        
+                    print(errmsg)
+
     def clearErrors(self):
         """
-        Clears our any Error statuses from the function generator, eliminating the need to power cycle.
+        Clears our any Error statuses from the function generator,
+        eliminating the need to power cycle.
         """
         self.instr.write("*CLS")
-        
+
     def reset(self):
         """
         Resets function generator to defaults
@@ -158,18 +165,18 @@ class FunctionGenerator:
         time.sleep(1)
         self.clearErrors()
         time.sleep(0.1)
-        
-    def setOutput(self,channel,state):
+
+    def setOutput(self, channel, state):
         """
         sets the specified channel to the ON or OFF state
-        
+
         :param channel: integer channel to control {1|2}
         :param state: integer state {1|0} or string state {'ON'|'OFF'}
         """
         if (channel == 1) or (channel == 2):
             if (state == 'ON') or (state == 1):
                 cmdstate = 'ON'
-            else: 
+            else:
                 if (state == 'OFF') or (state == 0):
                     cmdstate = 'OFF'
                 else:
@@ -179,15 +186,15 @@ class FunctionGenerator:
             print('ERROR:Invalid Channel')
             return
         syscmd = 'OUTPUT'+str(channel)+" "+cmdstate
-        print syscmd
+        print(syscmd)
         self.instr.write(syscmd)
-        
+
     def pushArbitraryWaveform(self, intWaveform):
         """
         Loads arbitrary waveform into memory according to
         loadArbitraryWaveform() and then selects and outputs the waveform.
 
-        :param intWaveform:    A list of integers between -2047 and +2047 with
+        :param list intWaveform: A list of ints between -2047 and +2047 with
         length between 8 and 16,000 inclusive.
         """
 
