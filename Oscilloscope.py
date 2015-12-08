@@ -32,7 +32,9 @@ class Oscilloscope:
         
         self.dso = 'win32com.client.Dispatch("LeCroy.ActiveDSOCtrl.1")'  # Instantiate instrument
         self.connect()
-        #
+    
+    # Basic Oscilloscope Communication Protocol    
+    
     def connect(self):
         """
         Connects the scope to the object
@@ -65,7 +67,99 @@ class Oscilloscope:
         """
         
         return self.dso.ReadString(bytes)
+    
+    def readClearError(self):
+        """
+        reads and clears the contents of the CoMmand error Register which specifies the last syntax error type detected by your oscilloscope.
+        """
+        cmd = 'CMR?'
+        self.write(cmd)
+        lastErrorID = int(self.readBuffer(80))
+        errorList = {0:"No Error",1:"Unrecognized command/query header",2:"Illegal header path",3:"Illegal number",4:"Illegal number suffix",5:"Unrecognized keyword",6:"String error",7:"GET embedded in another message",10:"Arbitrary data block expected",11:"Non-digit character in byte count field of arbitrary data block",12:"EOI detected during definite length data block transfer",13:"Extra bytes detected during definite length data block transfer"}
+        print errorList[lastErrorID]
         
+    # Acquisition Control
+    
+    def getChannelID(self,channel):
+        """
+        Converts an integer channel to a string channel ID
+        
+        :param channel: String specifying which trace to use {'C1'|'C2} or {1|2}
+        """
+        if (len(str(channel)) == 1):
+            channel = 'C' + str(channel)
+        else:
+            if (len(str(channel)) == 2):
+                channel = str(channel)
+            else:
+                raise NameError('Invalid Channel ID ' + str(channel))
+            
+        if (channel[0][0] == 'C') & ((channel[1][0] == '1') | (channel[1][0] == '2')):
+            return channel
+        else:
+            raise NameError('Invalid Channel ID ' + channel)
+            return
+            
+    def dumpWaveform(self,channel='C1'):
+        """
+        Shows the hexidecimal contents of the specified waveform
+        
+        :param channel: String specifying which trace to use {'C1'|'C2} or {1|2}. Defaults to C1 if blank.
+        """
+        channel = self.getChannelID(channel)
+        cmd = channel + ':WAVEFORM?'
+        self.write(cmd)
+    
+    def arm(self):
+        """
+        Arms the scope and forces a single acquisition if it is already armed.
+        """
+        cmd = 'ARM'
+        self.write(cmd)
+    
+    # Display Control
+    
+    def clearSweeps(self):
+        """
+        restarts the cumulative processing functions: summed or continuous average, extrema, FFT power average, histogram, pulse parameter statistics, Pass/Fail counters, and persistence.
+        """
+        cmd = 'CLSW'
+        self.write(cmd)
+        
+    # Memory Management
+    
+    def getMemID(self,bank):
+        """
+        Converts input to string memory bank ID
+        
+        :param bank: string specifying memory bank {'M1'|'M2'|'M3'|'M4'} or integer {1|2|3|4}
+        """
+        if (len(str(bank)) == 1):
+            bank = 'M' + str(bank)
+        else:
+            if (len(str(bank)) == 2):
+                bank = str(bank)
+            else:
+                raise NameError('Invalid Memory ID ' + str(bank))
+            
+        if (bank[0][0] == 'M') & ((bank[1][0] == '1') | (bank[1][0] == '2') | (bank[1][0] == '3') | (bank[1][0] == '4')):
+            return bank
+        else:
+            raise NameError('Invalid Memory ID ' + bank)
+            return
+            
+    def clearMem(self,bank='M1'):
+        """
+        Clears the specified memory bank
+        
+        :param bank: string specifying memory bank {'M1'|'M2'|'M3'|'M4'} or integer {1|2|3|4}
+        """
+        bank = self.getMemID(bank)
+        cmd = 'CLM ' + bank
+        self.write(cmd)
+        
+    # Abstract Parameter I/0    
+    
     def setParam(self,header,parameter,value):
         """
         constructs and sends the command to set a particular parameter
@@ -96,17 +190,6 @@ class Oscilloscope:
         """
         cmd = ''+ header + ':' + parameter + '?'
         self.write(cmd)
-    
-    def formatByteOrder(self,order=1):
-        """
-        Sets the order of bytes for waveform dumping
-        :param order: 0 = high byte first, 1 = low byte first, Default is 1
-        """
-        if (order == 1) | (order == 0):
-            cmd = 'COMM_ORDER ' + str(order)
-            self.write(cmd)
-        else:
-            print('COMM_ORDER must be 0 or 1')
             
     def inspectParam(self,header,parameter,format='default'):    
         """
@@ -126,15 +209,8 @@ class Oscilloscope:
             cmd = cmd + ', ' + format
         self.write(cmd)
         
-    def dumpWaveform(self,header='C1'):
-        """
-        Shows the hexidecimal contents of the specified waveform
-        
-        :param header: String specifying which trace to use {'C1'|'C2}. Defaults to C1 if blank.
-        """
-        cmd = header + ':WAVEFORM?'
-        self.write(cmd)
-        
+    # Formatting/Configuration
+    
     def formatHeader(self,format):
         """
         sets the oscilloscope query response format
@@ -151,7 +227,31 @@ class Oscilloscope:
             self.write(cmd)
         else:
             print 'invalid Header format ' + format
-
+            
+    def formatByteOrder(self,order=1):
+        """
+        Sets the order of bytes for waveform dumping
+        :param order: 0 = high byte first, 1 = low byte first, Default is 1
+        """
+        if (order == 1) | (order == 0):
+            cmd = 'COMM_ORDER ' + str(order)
+            self.write(cmd)
+        else:
+            print('COMM_ORDER must be 0 or 1')
+    
+    def formatWaveForm(self,data_type='WORD',encoding='BIN',block_format='DEF9'):
+        """
+        Selects the format the oscilloscope uses to send waveform data. The available options allow the data type, the encoding mode to be modified from the default settings, and the block format.
+        
+        :param data_type: = {'BYTE'|'WORD'}
+        :param encoding: = {'BIN'} <-- 'HEX' might work, too?
+        :param  block_format: = 'DEF9'
+        """
+        cmd = 'CFMT ' + block_format + ',' + data_type + ',' + encoding
+        self.write(cmd)
+        
+    #VBS Protocols
+    
     def VBScommand(self,command):
         """
         formats and writes the VBS command
@@ -180,4 +280,10 @@ class Oscilloscope:
         self.VBSquery(command)
         return self.readBuffer()
      
-        
+    #Miscellaneous
+    def buzz(self):
+        """
+        Oscilloscope makes a short beep
+        """
+        cmd = 'BUZZ BEEP'
+        self.write(cmd)
