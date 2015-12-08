@@ -30,15 +30,21 @@ class Oscilloscope:
             self.addr = instrumentSelector
             print "str"
         
-        self.scope = win32com.client.Dispatch("LeCroy.ActiveDSOCtrl.1")  # Instantiate instrument
-        self.scope.MakeConnection(self.addr)
-        print 'OK'
-        
+        self.dso = 'win32com.client.Dispatch("LeCroy.ActiveDSOCtrl.1")'  # Instantiate instrument
+        self.connect()
+        #
+    def connect(self):
+        """
+        Connects the scope to the object
+        """
+        if (self.addr != ''):
+            self.dso.MakeConnection(self.addr)
+            
     def disconnect(self):
         """
         Disconnects the scope from the object
         """
-        self.scope.Disconnect()
+        self.dso.Disconnect()
         
     def write(self, command):
         """
@@ -46,18 +52,116 @@ class Oscilloscope:
 
         :param command:    A string representing the oscilloscope command
         """
-        self.scope.WriteString(command,1)
+        if (self.addr != ''):
+            self.dso.WriteString(command,1)
+        else:
+            print command
         
-    def writeVBS(self,command):
+    def readBuffer(self,bytes=80):
+        """
+        returns the string in the oscilloscope's output buffer
+        
+        :param bytes: optional specifier for the number of bytes to read. default is 80.
+        """
+        
+        return self.dso.ReadString(bytes)
+        
+    def setParam(self,header,parameter,value):
+        """
+        constructs and sends the command to set a particular parameter
+        
+        :param header: A string representing a resource
+            C1|C2 - Channels
+            M1|M2|M3|M4 - Memories
+            F1|F2|F3|F4|F5|F6|F7|F8 - Traces
+            EX|EX10|EX5 - External Triggers
+            LINE - LINE source for trigger
+        :param parameter: A string representing the parameter to be set
+        :param value: A numeric or string value to set
+        """
+        cmd = ''+ header + ':' + parameter + ' ' + str(value)
+        self.write(cmd)
+        
+    def queryParam(self,header,parameter):
+        """
+        constructs and sends the command to query a particular parameter. The result is stored in the oscilloscope's output buffer
+        
+        :param header: A string representing a resource
+            C1|C2 - Channels
+            M1|M2|M3|M4 - Memories
+            F1|F2|F3|F4|F5|F6|F7|F8 - Traces
+            EX|EX10|EX5 - External Triggers
+            LINE - LINE source for trigger
+        :param parameter: A string representing the parameter to be queried
+        """
+        cmd = ''+ header + ':' + parameter + '?'
+        self.write(cmd)
+    
+    def formatByteOrder(self,order=1):
+        """
+        Sets the order of bytes for waveform dumping
+        :param order: 0 = high byte first, 1 = low byte first, Default is 1
+        """
+        if (order == 1) | (order == 0):
+            cmd = 'COMM_ORDER ' + str(order)
+            self.write(cmd)
+        else:
+            print('COMM_ORDER must be 0 or 1')
+            
+    def inspectParam(self,header,parameter,format='default'):    
+        """
+        constructs and sends the command to inspect a particular parameter. The result is printed to the standard output. WARNING - if the data block contains thousands of items the output will be VERY LONG.
+        
+        :param header: A string representing a resource
+            C1|C2 - Channels
+            M1|M2|M3|M4 - Memories
+            F1|F2|F3|F4|F5|F6|F7|F8 - Traces
+            EX|EX10|EX5 - External Triggers
+            LINE - LINE source for trigger
+        :param parameter: A string representing the parameter to be inspected
+        :param format: [optional] string to format output as 'byte'|'word'
+        """
+        cmd = ''+ header + ':INSPECT? "' + parameter + '"'
+        if(format != 'default'):
+            cmd = cmd + ', ' + format
+        self.write(cmd)
+        
+    def dumpWaveform(self,header='C1'):
+        """
+        Shows the hexidecimal contents of the specified waveform
+        
+        :param header: String specifying which trace to use {'C1'|'C2}. Defaults to C1 if blank.
+        """
+        cmd = header + ':WAVEFORM?'
+        self.write(cmd)
+        
+    def formatHeader(self,format):
+        """
+        sets the oscilloscope query response format
+        
+        :param format: String representing the format {'long','short','off'}
+            example:
+            long:   C1:TRIG_SLOPE NEG 
+            short:  C1:TRSL NEG
+            off:    NEG
+        """
+        format = format.upper()
+        if (format == 'LONG') | (format == 'SHORT') | (format == 'OFF'):
+            cmd = 'COMM_HEADER:' + format
+            self.write(cmd)
+        else:
+            print 'invalid Header format ' + format
+
+    def VBScommand(self,command):
         """
         formats and writes the VBS command
-
+        
         :param command:    A string representing the VBS command
         """
         cmd = 'VBS  \''+command+' \' '
-        self.scope.WriteString(cmd,1)
+        self.write(cmd)
         
-    def dumpVBS(self,command):
+    def VBSquery(self,command):
         """
         dumps the requested value to the oscilloscope's memory
         
@@ -65,22 +169,15 @@ class Oscilloscope:
         """
         
         cmd = 'VBS?  \'return='+command+' \' '
-        self.scope.WriteString(cmd,1)
-        
-    def getValue(self):
-        """
-        returns the value (up to 80 bytes) of the last-dumped measurement
-        """
-        
-        return self.scope.ReadString(80)
+        self.write(cmd)
     
-    def getVBS(self,command):
+    def VBSreturn(self,command):
         """
         dumps the requested value to the oscilloscope's memory, and then returns the value
         
         :param command: string to the requested parameter
         """
-        self.dumpVBS(command)
-        return self.getValue()
+        self.VBSquery(command)
+        return self.readBuffer()
      
         
