@@ -67,7 +67,7 @@ class FunctionGenerator:
         """
         Sends a manual trigger to the bus
         """
-        set.instr.write('*TRG')
+        self.instr.write('*TRG')
 
     def pushSin(self, frequency, amplitude=1, offset=0):
         """
