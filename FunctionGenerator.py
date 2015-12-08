@@ -37,42 +37,48 @@ class FunctionGenerator:
         self.instr = usbtmc.Instrument(self.addr)  # Instantiate instrument
 
     def getIdn(self):
-        """
+        """ get fgen identity
+
         Asks the function generator to identify itself and retuns a unicode
         string of the response.
 
-        :returns: identity -- a unicode string the attached function generator
-        uses to identify itself.
+        :returns: identity -- unicode identity string
         """
+
         return self.instr.ask("*IDN?")
 
     def write(self, command):
-        """
+        """ write SCPI cmd
+
         Writes the given custom SCPI command to the instrument over usbtmc
 
         :param str command: SCPI command
         """
+
         self.instr.write(command)
 
     def getStatus(self):
-        """
-        Gets function generator's status and what output/settings are currently
-        set to
+        """ get status and settings
+
+        Returns function generator's status and what output/settings are
+        currently set to
 
         :returns: status -- string of current status
         """
+
         return self.instr.ask("APPLy?")
 
     def sendTrigger(self):
+        """ sends a manual trigger to the bus
         """
-        Sends a manual trigger to the bus
-        """
+
         self.instr.write('*TRG')
 
     def pushSin(self, frequency, amplitude=1, offset=0):
-        """
-        Pushes sin wave of the given parameters to function generator AND turns
-        on output
+        """ setup sin wave output
+
+        Pushes sin wave of the given parameters to function generator AND
+        turns on output
 
         :param float frequency:  the frequency in Hz of the sin wave
         :param float amplitude: (optional, default set to 1V), amplitude of the
@@ -87,10 +93,11 @@ class FunctionGenerator:
         print("Set sin")
 
     def getError(self):
-        """Gets the next error off the queue.
+        """ gets the next error off the queue
 
         :returns: error -- The next error off the queue
         """
+
         return self.instr.ask("SYSTem:ERRor?")
 
     def loadFromMemory(self, stateName):
@@ -101,6 +108,7 @@ class FunctionGenerator:
         :param stateName: The string name of the state (without the .sta
         extension). For example "HIFU_SIM"
         """
+
         self.instr.write("MMEMory:LOAD:STATe \""+str(stateName)+"\"")
 
     def loadArbitraryWaveform(self, intWaveform):
@@ -112,7 +120,7 @@ class FunctionGenerator:
         :param list intWaveform: A list of integers between -2047 and +2047
         with length between 8 and 16,000 inclusive.
         """
-        import sys
+        from sys import exit
 
         if (not all((isinstance(n, int) and n >= -2047 and n <= 2047)
                     for n in intWaveform)):
@@ -120,7 +128,7 @@ class FunctionGenerator:
                   "problem is one of the following:")
             # Raise custom Exception here
             # TODO: FINISH
-            sys.exit(1)
+            exit(1)
         # self.instr.write("DATA:DEL VOLATILE")
         sendString = "DATA:DAC VOLATILE, " + \
             str(intWaveform)[1:len(str(intWaveform))-1]
@@ -131,13 +139,14 @@ class FunctionGenerator:
         """
         Loads a series of settings from a text file.
         Empty lines and lines beginning with # are ignored
+
         TODO: Query error stack after each line, to make sure we abort in
         case of error. Should probably turn all outputs OFF in such a case,
         too.
 
         :param str filename: string name of text file to read from
         """
-        import time
+
         print("Loading from " + filename + ":")
         f = open(filename, 'r')
         for line in f:
@@ -150,16 +159,17 @@ class FunctionGenerator:
                     print(errmsg)
 
     def clearErrors(self):
-        """
+        """ clear errors
+
         Clears our any Error statuses from the function generator,
         eliminating the need to power cycle.
         """
         self.instr.write("*CLS")
 
     def reset(self):
+        """ resets function generator to defaults
         """
-        Resets function generator to defaults
-        """
+
         import time
         self.instr.write("*RST")
         time.sleep(1)
@@ -167,8 +177,7 @@ class FunctionGenerator:
         time.sleep(0.1)
 
     def setOutput(self, channel, state):
-        """
-        sets the specified channel to the ON or OFF state
+        """ sets the specified channel to the ON or OFF state
 
         :param channel: integer channel to control {1|2}
         :param state: integer state {1|0} or string state {'ON'|'OFF'}
@@ -198,8 +207,8 @@ class FunctionGenerator:
         length between 8 and 16,000 inclusive.
         """
 
-        self.loadArbitraryWaveform(intWaveform)  # Loads arb waveform into
-                                                 # volatile memory
+        self.loadArbitraryWaveform(intWaveform)     # Loads arb waveform into
+                                                    # volatile memory
         self.instr.write("FUNC:ARB VOLATILE")  # Selects volatile for the arb
                                                # shape
         self.instr.write("FUNC:SHAP ARB")  # Selects the arb function
