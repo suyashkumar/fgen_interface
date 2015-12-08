@@ -30,9 +30,11 @@ class Oscilloscope:
             self.addr = instrumentSelector
             print "str"
         
-        self.dso = 'win32com.client.Dispatch("LeCroy.ActiveDSOCtrl.1")'  # Instantiate instrument
+        self.dso = win32com.client.Dispatch("LeCroy.ActiveDSOCtrl.1")
+        # Instantiate instrument
         self.connect()
-    
+        self.outputBuffer = ''
+        
     # Basic Oscilloscope Communication Protocol    
     
     def connect(self):
@@ -65,8 +67,8 @@ class Oscilloscope:
         
         :param bytes: optional specifier for the number of bytes to read. default is 80.
         """
-        
-        return self.dso.ReadString(bytes)
+        self.outputBuffer = self.dso.ReadString(bytes)
+        return self.outputBuffer
     
     def readClearError(self):
         """
@@ -125,6 +127,43 @@ class Oscilloscope:
         """
         cmd = 'CLSW'
         self.write(cmd)
+    
+    def setVisibility(self,trace,visibility):
+        """
+        turn a specific trace on or off
+        :param trace: index of channel {1|2} or string 'C1','C2','F1'...'F8'
+        :param visibility: {'ON'|'OFF'}
+        """
+        trace = self.getTraceID(trace)
+        visibility = self.getOnOff(visibility)
+        cmd = trace + ':TRA ' + visibility
+        self.write(cmd)
+    
+    def getOnOff(self,bool):
+        """
+        converts 1 and True to ON and 0 and False to OFF
+        """
+        if ((str(bool) == 'True') | (str(bool) == '1') | (str(bool) == 'ON')):
+            return 'ON'
+        elif ((str(bool) == 'False') | (str(bool) == '0') | (str(bool) == 'OFF')):
+            return 'OFF'
+        else:
+            raise NameError('Invalid boolean On/Off')
+            
+    
+    def getTraceID(self,trace):
+        """
+        get trace ID
+        
+        :param trace: index of channel {1|2} or string 'C1','C2','F1'...'F8'
+        """
+        traceList = ['C1','C2','F1','F2','F3','F4','F5','F6','F7','F8']
+        if (len(str(trace)) == 1):
+            trace = 'C' + str(trace)
+        for t in traceList:
+            if (trace == t):
+                return t
+        raise NameError('Invalid trace ID ' + str(trace))    
         
     # Memory Management
     
@@ -160,35 +199,23 @@ class Oscilloscope:
         
     # Abstract Parameter I/0    
     
-    def setParam(self,header,parameter,value):
+    def setParam(self,parameter,value):
         """
         constructs and sends the command to set a particular parameter
         
-        :param header: A string representing a resource
-            C1|C2 - Channels
-            M1|M2|M3|M4 - Memories
-            F1|F2|F3|F4|F5|F6|F7|F8 - Traces
-            EX|EX10|EX5 - External Triggers
-            LINE - LINE source for trigger
-        :param parameter: A string representing the parameter to be set
+        :param parameter: A string representing the parameter to be set i.e. 'C1:VDIV' or 'TDIV'
         :param value: A numeric or string value to set
         """
-        cmd = ''+ header + ':' + parameter + ' ' + str(value)
+        cmd = parameter + ' ' + str(value)
         self.write(cmd)
         
-    def queryParam(self,header,parameter):
+    def queryParam(self,parameter):
         """
         constructs and sends the command to query a particular parameter. The result is stored in the oscilloscope's output buffer
         
-        :param header: A string representing a resource
-            C1|C2 - Channels
-            M1|M2|M3|M4 - Memories
-            F1|F2|F3|F4|F5|F6|F7|F8 - Traces
-            EX|EX10|EX5 - External Triggers
-            LINE - LINE source for trigger
         :param parameter: A string representing the parameter to be queried
         """
-        cmd = ''+ header + ':' + parameter + '?'
+        cmd = parameter + '?'
         self.write(cmd)
             
     def inspectParam(self,header,parameter,format='default'):    
@@ -207,6 +234,7 @@ class Oscilloscope:
         cmd = ''+ header + ':INSPECT? "' + parameter + '"'
         if(format != 'default'):
             cmd = cmd + ', ' + format
+        print cmd
         self.write(cmd)
         
     # Formatting/Configuration
