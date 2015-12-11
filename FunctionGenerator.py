@@ -29,10 +29,10 @@ class FunctionGenerator:
         # address as needed
         if (isinstance(instrumentSelector, int)):
             self.addr = self.selectorMap[instrumentSelector]
-            print("int")
+            #print("int")
         elif(isinstance(instrumentSelector, str)):
             self.addr = instrumentSelector
-            print("str")
+            #print("str")
 
         self.instr = usbtmc.Instrument(self.addr)  # Instantiate instrument
 
@@ -135,7 +135,7 @@ class FunctionGenerator:
         print(sendString)
         self.instr.write(sendString)
 
-    def loadSettings(self, filename):
+    def loadSettings(self,filename):
         """
         Loads a series of settings from a text file.
         Empty lines and lines beginning with # are ignored

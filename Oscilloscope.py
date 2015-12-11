@@ -25,15 +25,21 @@ class Oscilloscope:
         # address as needed
         if (isinstance(instrumentSelector, int)):
             self.addr = self.selectorMap[instrumentSelector]
-            print "int"
+            #print "int"
         elif(isinstance(instrumentSelector, str)):
             self.addr = instrumentSelector
-            print "str"
+            #print "str"
         
         self.dso = win32com.client.Dispatch("LeCroy.ActiveDSOCtrl.1")
         # Instantiate instrument
         self.connect()
         self.outputBuffer = ''
+        self.channels = ['C1','C2']
+        self.memories = ['M1','M2','M3','M4']
+        self.traces = ['F1','F5','F6','F7','F8']
+        self.xtrigs = ['EX','EX10','EX5']
+        self.linetrigs = ['LINE']
+        self.ndiv = 10
         
     # Basic Oscilloscope Communication Protocol    
     
@@ -50,13 +56,15 @@ class Oscilloscope:
         """
         self.dso.Disconnect()
         
-    def write(self, command):
+    def write(self, command,echo=False):
         """
         Writes the given custom command to the instrument
 
         :param command:    A string representing the oscilloscope command
         """
         if (self.addr != ''):
+            if echo:
+                print command
             self.dso.WriteString(command,1)
         else:
             print command
@@ -82,36 +90,55 @@ class Oscilloscope:
         
     # Acquisition Control
     
-    def getChannelID(self,channel):
+    def setupWaveForm(self,n=0,sparsing=1,firstpoint=0,segment=0):
         """
-        Converts an integer channel to a string channel ID
+        Specifies the amount of data in a waveform to be transmitted to the controller.
+        Sparsing (SP): The sparsing parameter defines the interval between data points. For
+        :param n: The number of points parameter indicates how many points should be transmitted. For example:
+            NP = 0 sends all data points
+            NP = 1 sends 1 data point
+            NP = 50 sends a maximum of 50 data points
+            NP = 1001 sends a maximum of 1001 data points
+        :param sparsing: interval between data points 
+            SP = 0 sends all data points
+            SP = 1 sends all data points
+            SP = 4 sends every 4th data point
+        :param firstpoint: The first point parameter specifies the address of the first data point to be sent. For waveforms acquired in sequence mode, this refers to the relative address in the given segment. For example:
+            FP = 0 corresponds to the first data point
+            FP = 1 corresponds to the second data point
+            FP = 5000 corresponds to data point 5001
+        :param segment: The segment number parameter indicates which segment should be sent if the waveform was acquired in sequence mode. This parameter is ignored for non-segmented waveforms. For example:
+            SN = 0 all segments
+            SN = 1 first segment
+            SN = 23 segment 23
+        """
+        cmd = 'WFSU NP,' + str(n) + ',SP,' + str(sparsing) + ',FP,' + str(firstpoint) + ',SN,' + str(segment)
+        self.write(cmd)
         
-        :param channel: String specifying which trace to use {'C1'|'C2} or {1|2}
-        """
-        if (len(str(channel)) == 1):
-            channel = 'C' + str(channel)
-        else:
-            if (len(str(channel)) == 2):
-                channel = str(channel)
-            else:
-                raise NameError('Invalid Channel ID ' + str(channel))
-            
-        if (channel[0][0] == 'C') & ((channel[1][0] == '1') | (channel[1][0] == '2')):
-            return channel
-        else:
-            raise NameError('Invalid Channel ID ' + channel)
-            return
-            
     def dumpWaveform(self,channel='C1'):
         """
         Shows the hexidecimal contents of the specified waveform
         
         :param channel: String specifying which trace to use {'C1'|'C2} or {1|2}. Defaults to C1 if blank.
         """
-        channel = self.getChannelID(channel)
+        channel = self.checkInput(channel,self.channels,'C')
         cmd = channel + ':WAVEFORM?'
         self.write(cmd)
     
+    def sequence(self,mode='ON',segments=[],max_size=[]):
+        """
+        sets up the scope for sequence mode acquisition
+        :param mode: 'ON' or 'OFF'
+        :param segments: number of segments to record. Limited by the max memory length per channel (see guide)
+        """
+        mode = self.getOnOff(mode)
+        cmd = 'SEQ ' + mode
+        if not(segments==[]):
+            cmd = cmd + ',' + str(segments)
+            if not(max_size==[]):
+                cmd = cmd + ',' + str(max_size)
+        self.write(cmd)
+        
     def arm(self):
         """
         Arms the scope and forces a single acquisition if it is already armed.
@@ -119,6 +146,70 @@ class Oscilloscope:
         cmd = 'ARM'
         self.write(cmd)
     
+    def wait(self,timeout=[]):
+        """
+        wait for the current acquisition to be completed.
+        :param timeout: timeout in seconds. Leave blank for indefinite
+        """
+        if (timeout == []):
+            cmd = 'WAIT'
+        else:
+            cmd = 'WAIT ' + str(timeout)
+        self.write(cmd)
+        
+    def setTriggerMode(self,mode='NORM'):
+        """
+        Sets the trigger mode of the oscilloscope
+        
+        :param mode: string specifying mode {'AUTO'|'NORM'|'SINGLE'|'STOP'}
+        """
+        mode = self.checkInput(mode,['AUTO','NORM','SINGLE','STOP'],name='trigger mode')
+        self.setParam('TRMD',mode)
+    
+    def setTriggerCoupling(self,source,coupling):
+        """
+        Sets the coupling mode of the specified trigger source.
+        :param source: trigger source {C1, C2, C3, C4, EX, EX10,ETM10}
+        :param coupling: {DC} for channel source
+                         {DC50, GND, DC1M, AC1M} for external source
+        """
+        source = self.checkInput(source,self.channels+self.xtrigs,'C')
+        if (source[0][0] == 'C'):
+            coupling = self.checkInput(coupling,['AC','DC','HF','HFREJ','LFREJ']) 
+        else:
+            coupling = self.checkInput(coupling,['DC50','GND','DC1M','AC1M'])
+        self.setParam(source + ':TRCP',coupling)
+
+    def setTriggerSlope(self,slope):
+        """
+        Sets the Trigger slope direction
+        
+        :param slope: POS or NEG
+        """
+        slope = self.checkInput(slope,['POS','NEG'],name='slope')
+        self.setParam('TRSL',slope)
+        
+    def setTrigger(self,source,type='EDGE',mode='',slope='',delay=[],level=[],coupling=''):
+        """
+        sets the Trigger source adn type. Can be used to set the mode, slope, delay, level, coupling and hold types
+        """
+        if not(type == 'EDGE'):
+            raise NameError('Non-Edge triggering modes not yet supported with setTrigger()')
+        
+        source = self.checkInput(source,self.channels+self.xtrigs,'C')
+        cmd = 'TRSE '+ type + ',SR,' + source
+        self.write(cmd)
+        if not(mode==''):
+            self.setTriggerMode(mode)
+        if not(slope==''):
+            self.setTriggerSlope(slope)
+        if not(delay==[]):
+            self.setParam('TRDL',delay)
+        if not(level==[]):
+            self.setParam('TRLV',level)
+        if not(coupling==''):
+            self.setTriggerCoupling(source,coupling)
+            
     # Display Control
     
     def clearSweeps(self):
@@ -128,64 +219,33 @@ class Oscilloscope:
         cmd = 'CLSW'
         self.write(cmd)
     
+    def loadParams(self, filename):
+        """
+        Loads a series of settings from a text file.
+        Empty lines and lines beginning with # are ignored
+
+        :param str filename: string name of text file to read from
+        """
+
+        print("Loading from " + filename + ":")
+        f = open(filename, 'r')
+        for line in f:
+            sline = line.strip()
+            print(sline)
+            if (len(sline) > 0) and (sline[0][0] != '#'):
+                self.write(sline)
+                                  
     def setVisibility(self,trace,visibility):
         """
         turn a specific trace on or off
         :param trace: index of channel {1|2} or string 'C1','C2','F1'...'F8'
         :param visibility: {'ON'|'OFF'}
         """
-        trace = self.getTraceID(trace)
+        trace = self.checkInput(trace,self.channels+self.traces,'C')
         visibility = self.getOnOff(visibility)
-        cmd = trace + ':TRA ' + visibility
-        self.write(cmd)
-    
-    def getOnOff(self,bool):
-        """
-        converts 1 and True to ON and 0 and False to OFF
-        """
-        if ((str(bool) == 'True') | (str(bool) == '1') | (str(bool) == 'ON')):
-            return 'ON'
-        elif ((str(bool) == 'False') | (str(bool) == '0') | (str(bool) == 'OFF')):
-            return 'OFF'
-        else:
-            raise NameError('Invalid boolean On/Off')
+        self.setParam(trace + ':TRA',visibility)           
             
-    
-    def getTraceID(self,trace):
-        """
-        get trace ID
-        
-        :param trace: index of channel {1|2} or string 'C1','C2','F1'...'F8'
-        """
-        traceList = ['C1','C2','F1','F2','F3','F4','F5','F6','F7','F8']
-        if (len(str(trace)) == 1):
-            trace = 'C' + str(trace)
-        for t in traceList:
-            if (trace == t):
-                return t
-        raise NameError('Invalid trace ID ' + str(trace))    
-        
     # Memory Management
-    
-    def getMemID(self,bank):
-        """
-        Converts input to string memory bank ID
-        
-        :param bank: string specifying memory bank {'M1'|'M2'|'M3'|'M4'} or integer {1|2|3|4}
-        """
-        if (len(str(bank)) == 1):
-            bank = 'M' + str(bank)
-        else:
-            if (len(str(bank)) == 2):
-                bank = str(bank)
-            else:
-                raise NameError('Invalid Memory ID ' + str(bank))
-            
-        if (bank[0][0] == 'M') & ((bank[1][0] == '1') | (bank[1][0] == '2') | (bank[1][0] == '3') | (bank[1][0] == '4')):
-            return bank
-        else:
-            raise NameError('Invalid Memory ID ' + bank)
-            return
             
     def clearMem(self,bank='M1'):
         """
@@ -193,7 +253,7 @@ class Oscilloscope:
         
         :param bank: string specifying memory bank {'M1'|'M2'|'M3'|'M4'} or integer {1|2|3|4}
         """
-        bank = self.getMemID(bank)
+        bank = self.checkInput(bank,self.memories,'M')
         cmd = 'CLM ' + bank
         self.write(cmd)
         
@@ -231,6 +291,7 @@ class Oscilloscope:
         :param parameter: A string representing the parameter to be inspected
         :param format: [optional] string to format output as 'byte'|'word'
         """
+        header = self.checkInput(header,self.channels+self.memories+self.traces+self.xtrigs+self.linetrigs,'C')
         cmd = ''+ header + ':INSPECT? "' + parameter + '"'
         if(format != 'default'):
             cmd = cmd + ', ' + format
@@ -249,12 +310,9 @@ class Oscilloscope:
             short:  C1:TRSL NEG
             off:    NEG
         """
-        format = format.upper()
-        if (format == 'LONG') | (format == 'SHORT') | (format == 'OFF'):
-            cmd = 'COMM_HEADER:' + format
-            self.write(cmd)
-        else:
-            print 'invalid Header format ' + format
+        format = self.checkInput(format,['LONG','SHORT','OFF'])
+        cmd = 'COMM_HEADER:' + format
+        self.write(cmd)
             
     def formatByteOrder(self,order=1):
         """
@@ -277,7 +335,34 @@ class Oscilloscope:
         """
         cmd = 'CFMT ' + block_format + ',' + data_type + ',' + encoding
         self.write(cmd)
+    
+    #Input Parsing
+    def checkInput(self,id,idList,intprefix='',caseInsensitive=True,name='input'):
+        """
+        Compares a string against a list of possibilities, returning a valid string or and error. Ensures valid calls to the oscilloscope.
         
+        :param id: the candidate string or integer
+        :param idList: List of acceptable string inputs
+        :param intprefix: [optional] if given a numeric input, the number will be appended to this character
+        """
+        if not isinstance(id,str):
+            id = intprefix + str(id)
+        for i in idList:
+            if ((id == i) | (caseInsensitive & (id.lower() == i.lower()))):
+                return i
+        raise NameError('Invalid ' + name + ' "' + str(id) + '". Acceptable values are ' + str(idList))    
+    
+    def getOnOff(self,bool):
+        """
+        converts 1 and True to ON and 0 and False to OFF
+        """
+        if ((str(bool) == 'True') | (str(bool) == '1') | (str(bool) == 'ON')):
+            return 'ON'
+        elif ((str(bool) == 'False') | (str(bool) == '0') | (str(bool) == 'OFF')):
+            return 'OFF'
+        else:
+            raise NameError('Invalid boolean On/Off')
+    
     #VBS Protocols
     
     def VBScommand(self,command):
